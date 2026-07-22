@@ -25,7 +25,7 @@ O executável sai em:
 
 ## Instalador Windows
 
-**Não é possível gerar o instalador neste Mac** de ponta a ponta: o app é .NET Framework 4.8 + WinForms e o empacotador (Inno Setup) só roda em Windows. Docker no Mac também não resolve (não executa containers Windows).
+O app é .NET Framework 4.8 + WinForms e o empacotador (Inno Setup) só roda em Windows.
 
 ### GitHub Actions → Release
 
