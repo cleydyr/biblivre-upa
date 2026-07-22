@@ -22,8 +22,10 @@ SolidCompression=yes
 WizardStyle=modern
 ; Operador não técnico: instalar sem admin; UAC só no Modo Reparo do app
 PrivilegesRequired=lowest
-ArchitecturesAllowed=x86 x64
-ArchitecturesInstallIn64BitMode=x64
+; Win11 ARM (Snapdragon etc.): sem arm64 o Inno recusa com
+; "Este programa não suporta a versão do Windows que seu computador está executando."
+ArchitecturesAllowed=x86compatible x64compatible arm64
+ArchitecturesInstallIn64BitMode=x64compatible arm64
 MinVersion=6.1sp1
 SetupIconFile=
 UninstallDisplayIcon={app}\{#MyAppExeName}
