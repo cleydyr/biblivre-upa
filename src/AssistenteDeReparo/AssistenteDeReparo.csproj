@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>AssistenteDeReparo</RootNamespace>
+    <AssemblyName>AssistenteDeReparo</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon />
+    <StartupObject>AssistenteDeReparo.Program</StartupObject>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Product>Assistente de Reparo Biblivre 5</Product>
+    <Description>Diagnóstico e reparo da instalação oficial do Biblivre 5 no Windows</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.ServiceProcess" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,99 @@
+name: Build Windows Installer
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Versão da release (ex. 1.0.0). Deixe vazio para usar a tag ou 1.0.0."
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  build-installer:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve version
+        id: ver
+        shell: pwsh
+        run: |
+          $inputVersion = "${{ github.event.inputs.version }}".Trim()
+          if ($inputVersion) {
+            $v = $inputVersion.TrimStart('v', 'V')
+          } elseif ($env:GITHUB_REF_TYPE -eq "tag" -and $env:GITHUB_REF_NAME -match '^v') {
+            $v = $env:GITHUB_REF_NAME.TrimStart('v')
+          } else {
+            $v = "1.0.0"
+          }
+          Write-Host "version=$v"
+          "version=$v" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "tag=v$v" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Install .NET Framework 4.8 targeting pack
+        run: choco install netfx-4.8-devpack --no-progress -y
+
+      - name: Build Release
+        run: dotnet build AssistenteDeReparo.sln -c Release --verbosity minimal
+
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Compile installer
+        shell: pwsh
+        run: |
+          $version = "${{ steps.ver.outputs.version }}"
+          $iss = Get-Content installer\AssistenteDeReparo.iss -Raw
+          $iss = $iss -replace '#define MyAppVersion "[\d\.]+"', "#define MyAppVersion `"$version`""
+          Set-Content installer\AssistenteDeReparo.iss -Value $iss -NoNewline
+
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) {
+            $iscc = "${env:ProgramFiles}\Inno Setup 6\ISCC.exe"
+          }
+          if (-not (Test-Path $iscc)) {
+            throw "ISCC.exe not found after Inno Setup install"
+          }
+
+          $built = "src\AssistenteDeReparo\bin\Release\net48\AssistenteDeReparo.exe"
+          if (-not (Test-Path $built)) {
+            throw "Build output missing: $built"
+          }
+
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          & $iscc installer\AssistenteDeReparo.iss
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Get-ChildItem dist | Format-Table Name, Length
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AssistenteDeReparo-Setup
+          path: dist/*.exe
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          name: Assistente de Reparo Biblivre ${{ steps.ver.outputs.tag }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: dist/*.exe
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
