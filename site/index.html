@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assistente de Reparo — Biblivre 5</title>
+  <meta name="description" content="O Biblivre parou de abrir? Programa gratuito para Windows que verifica o computador da biblioteca e, com a sua autorização, tenta corrigir a instalação do Biblivre 5. Feito para quem trabalha na biblioteca, não para técnicos.">
+  <meta property="og:title" content="Assistente de Reparo — Biblivre 5">
+  <meta property="og:description" content="Verifica o computador da biblioteca e, com a sua autorização, tenta corrigir a instalação do Biblivre 5. Gratuito, para Windows.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="theme-color" content="#1e2a9e">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700;800&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#conteudo">Ir para o conteúdo</a>
+
+  <header class="topo">
+    <div class="faixa">
+      <a class="marca" href="#" aria-label="Assistente de Reparo — Biblivre, início">
+        <svg class="marca-icone" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <rect x="3" y="5" width="26" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="2.5"/>
+          <path d="M8 21l4-6 3 4 3-7 6 9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Assistente de Reparo <em>Biblivre 5</em></span>
+      </a>
+      <nav aria-label="Seções da página">
+        <a href="#como-usar">Como usar</a>
+        <a href="#requisitos">Requisitos</a>
+        <a href="#perguntas">Perguntas</a>
+        <a href="https://github.com/cleydyr/biblivre-upa" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section class="abertura" aria-labelledby="titulo-principal">
+      <div class="faixa abertura-grade">
+        <div class="abertura-texto">
+          <h1 id="titulo-principal">O Biblivre parou de abrir? Este programa verifica o computador e tenta corrigir.</h1>
+          <p class="abertura-sub">Feito para quem trabalha na biblioteca, não para técnicos. Sem configurações e sem nomes estranhos: você clica em <strong>Verificar</strong>, lê o resultado em português claro e decide se quer que ele tente corrigir.</p>
+          <p class="aviso-comunidade">Esta ferramenta é uma contribuição da comunidade. Não tem suporte oficial do Biblivre.</p>
+
+          <div class="acao">
+            <a class="botao botao-principal" id="baixar" href="https://github.com/cleydyr/biblivre-upa/releases/latest" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v11m0 0l-4.5-4.5M12 14l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Baixar para Windows</span>
+            </a>
+            <p class="acao-nota" id="baixar-nota">Versão mais recente · instalador de poucos megabytes</p>
+          </div>
+          <ul class="garantias" aria-label="Garantias">
+            <li>Gratuito e de código aberto</li>
+            <li>Windows 7 ou mais recente</li>
+            <li>Instala sem senha de administrador</li>
+            <li>Só corrige depois que você diz <strong>Sim</strong></li>
+          </ul>
+        </div>
+
+        <figure class="demo" aria-labelledby="demo-legenda">
+          <div class="janela" id="janela" role="img" aria-label="Simulação da janela do Assistente de Reparo: o programa verifica, encontra problemas, pede autorização e corrige.">
+            <div class="janela-barra">
+              <span class="janela-titulo">Assistente de Reparo — Biblivre</span>
+              <span class="janela-controles" aria-hidden="true">
+                <svg viewBox="0 0 10 10"><path d="M1 5h8" stroke="currentColor" stroke-width="1"/></svg>
+                <svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+                <svg viewBox="0 0 10 10"><path d="M1 1l8 8M9 1L1 9" stroke="currentColor" stroke-width="1"/></svg>
+              </span>
+            </div>
+            <div class="janela-corpo">
+              <div class="janela-app">Biblivre</div>
+              <p class="janela-status" id="j-status">Clique em Verificar para analisar este computador.</p>
+              <div class="janela-resultado" id="j-resultado" aria-live="polite"></div>
+              <div class="janela-progresso" id="j-progresso" hidden><span></span></div>
+              <div class="janela-botoes">
+                <button type="button" class="jbotao" id="j-verificar" tabindex="-1">Verificar</button>
+                <button type="button" class="jbotao" id="j-corrigir" disabled tabindex="-1">Tentar corrigir</button>
+                <button type="button" class="jbotao" id="j-relatorio" disabled tabindex="-1">Salvar relatório</button>
+              </div>
+            </div>
+            <div class="dialogo" id="j-dialogo" hidden>
+              <div class="dialogo-caixa">
+                <div class="dialogo-barra">Assistente de Reparo</div>
+                <p>Posso tentar corrigir?<br><br>O acesso ao Biblivre pode ficar fora por alguns minutos.</p>
+                <div class="dialogo-botoes">
+                  <span class="jbotao" id="j-sim">Sim</span>
+                  <span class="jbotao">Não</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <figcaption id="demo-legenda">
+            <span>Simulação da janela do programa, com as mensagens reais que ele mostra.</span>
+            <button type="button" class="link-botao" id="replay">Ver de novo</button>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="faz" aria-labelledby="t-faz">
+      <div class="faixa faz-grade">
+        <div>
+          <h2 id="t-faz">O que ele faz</h2>
+          <ol class="lista-faz">
+            <li>
+              <strong>Encontra o Biblivre no computador.</strong>
+              Procura nos discos a instalação feita pelo instalador oficial do Biblivre 5. Se houver mais de uma, pergunta qual você quer verificar.
+            </li>
+            <li>
+              <strong>Verifica se tudo está ligado e respondendo.</strong>
+              Testa se o Biblivre abre no navegador e se as partes que o fazem funcionar (o servidor, o banco de dados e o Java do servidor) estão em execução.
+            </li>
+            <li>
+              <strong>Com a sua autorização, tenta corrigir.</strong>
+              Religa o que parou, reinicia o que travou e ajusta o Java do servidor quando a configuração está inválida. Você só precisa clicar em <strong>Sim</strong> uma vez.
+            </li>
+            <li>
+              <strong>Gera um relatório para o suporte.</strong>
+              Um arquivo de texto com o que foi encontrado e o que foi tentado, salvo na sua Área de Trabalho. Você envia para quem dá suporte à biblioteca.
+            </li>
+          </ol>
+        </div>
+        <aside class="nao-faz" aria-labelledby="t-nao-faz">
+          <h2 id="t-nao-faz">O que ele não faz</h2>
+          <ul>
+            <li>Não reinstala o Biblivre nem substitui arquivos do sistema.</li>
+            <li>Não mexe no acervo, nos empréstimos nem em qualquer dado da biblioteca.</li>
+            <li>Não altera configurações além das necessárias para o Biblivre voltar a abrir.</li>
+            <li>Não faz nenhuma correção sem que você clique em <strong>Sim</strong>.</li>
+          </ul>
+          <p class="nao-faz-nota">Se o problema for outro, ele diz que não conseguiu e você envia o relatório ao suporte. Nada é feito às cegas.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="passos" id="como-usar" aria-labelledby="t-como-usar">
+      <div class="faixa">
+        <h2 id="t-como-usar">Como usar, em quatro passos</h2>
+        <ol class="lista-passos">
+          <li>
+            <h3>Baixe e instale</h3>
+            <p>Abra o arquivo baixado e siga o instalador. Ele instala apenas para o seu usuário do Windows e não pede senha de administrador. Ao terminar, marque <strong>Abrir o Assistente agora</strong>.</p>
+          </li>
+          <li>
+            <h3>Clique em <span class="rotulo">Verificar</span></h3>
+            <p>Espere alguns segundos. O programa responde com uma frase curta: <q>Tudo certo</q>, <q>Encontrei problemas</q> ou <q>Biblivre não encontrado</q>, e lista o que achou em linguagem simples.</p>
+          </li>
+          <li>
+            <h3>Se houver problemas, <span class="rotulo">Tentar corrigir</span></h3>
+            <p>Ele pergunta <q>Posso tentar corrigir?</q> e avisa que o acesso pode ficar fora por alguns minutos. Só nessa hora o Windows pede autorização de administrador. Se você não tiver a senha, chame quem tem.</p>
+          </li>
+          <li>
+            <h3><span class="rotulo">Salvar relatório</span> e enviar ao suporte</h3>
+            <p>Se ainda assim o Biblivre não abrir, salve o relatório. Ele fica em <code>Área de Trabalho\Biblivre-Relatorios</code>. Envie esse arquivo a quem cuida do sistema da biblioteca: com ele, o suporte já sabe por onde começar.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="requisitos" id="requisitos" aria-labelledby="t-requisitos">
+      <div class="faixa requisitos-grade">
+        <h2 id="t-requisitos">Requisitos</h2>
+        <dl>
+          <div>
+            <dt>Sistema</dt>
+            <dd>Windows 7 SP1 ou mais recente (32 bits, 64 bits ou ARM). Use no mesmo computador em que o Biblivre está instalado.</dd>
+          </div>
+          <div>
+            <dt>.NET Framework 4.8</dt>
+            <dd>Já vem no Windows 10 e 11. No Windows 7 e 8.1, se o programa não abrir, <a href="https://dotnet.microsoft.com/pt-br/download/dotnet-framework/net48" rel="noopener">instale o .NET Framework 4.8</a> gratuitamente e tente de novo.</dd>
+          </div>
+          <div>
+            <dt>Permissões</dt>
+            <dd>Nenhuma para instalar e verificar. Autorização de administrador apenas na hora de corrigir.</dd>
+          </div>
+          <div>
+            <dt>Internet</dt>
+            <dd>Não é necessária. A verificação e a correção acontecem dentro do próprio computador.</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="perguntas" id="perguntas" aria-labelledby="t-perguntas">
+      <div class="faixa">
+        <h2 id="t-perguntas">Perguntas frequentes</h2>
+
+        <details>
+          <summary>Ele pode apagar ou estragar alguma coisa?</summary>
+          <p>Não. Ele não apaga arquivos nem toca nos dados da biblioteca. As correções se limitam a religar serviços que pararam e a ajustar a configuração do Java usada pelo servidor do Biblivre. Nenhuma delas é aplicada sem o seu <strong>Sim</strong>.</p>
+        </details>
+
+        <details>
+          <summary>O que tem no relatório? Posso enviar sem medo?</summary>
+          <p>O relatório é um arquivo de texto com informações técnicas do computador e da instalação: nome da máquina e do usuário do Windows, discos verificados, pastas do Biblivre, situação dos serviços, Java encontrado e o que foi tentado. Ele não contém senhas nem dados do acervo ou dos leitores. Foi feito para ser enviado ao suporte.</p>
+        </details>
+
+        <details>
+          <summary>Apareceu “Biblivre não encontrado”. E agora?</summary>
+          <p>Significa que ele não achou a instalação padrão do Biblivre 5 em nenhum disco deste computador. Confira se você está no computador certo (o servidor da biblioteca). Se estiver, salve o relatório e envie ao suporte: ele registra quais discos foram varridos.</p>
+        </details>
+
+        <details>
+          <summary>Preciso ser administrador do computador?</summary>
+          <p>Para instalar e para verificar, não. Para corrigir, o Windows pede autorização de administrador uma única vez, porque religar serviços exige esse nível de acesso. Se você não tiver a senha, faça a verificação, salve o relatório e peça a quem tem a senha para clicar em <strong>Tentar corrigir</strong>.</p>
+        </details>
+
+        <details>
+          <summary>Funciona com qualquer instalação do Biblivre?</summary>
+          <p>Ele foi feito para a instalação criada pelo instalador oficial do Biblivre 5 no Windows, a mais comum nas bibliotecas. Instalações feitas de outro jeito podem não ser reconhecidas: nesse caso ele avisa que não encontrou o Biblivre.</p>
+        </details>
+
+        <details>
+          <summary>Quem faz este programa?</summary>
+          <p>É uma contribuição da comunidade, de código aberto: qualquer pessoa pode ler o código, relatar problemas e propor melhorias no <a href="https://github.com/cleydyr/biblivre-upa" rel="noopener">GitHub</a>. Não tem suporte oficial do Biblivre. Para saber mais sobre o Biblivre em si, visite o <a href="https://biblivre.org.br" rel="noopener">site oficial do Biblivre</a>.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="fecho" aria-labelledby="t-fecho">
+      <div class="faixa fecho-grade">
+        <h2 id="t-fecho">Pronto para tentar?</h2>
+        <p>Baixe, clique em Verificar e leia o que ele diz. Leva menos tempo do que ligar para o suporte.</p>
+        <a class="botao botao-principal botao-claro" href="https://github.com/cleydyr/biblivre-upa/releases/latest" rel="noopener" data-baixar>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v11m0 0l-4.5-4.5M12 14l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Baixar para Windows</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="faixa rodape-grade">
+      <div class="rodape-texto">
+        <p>Assistente de Reparo — Biblivre 5. Software gratuito e de código aberto. Contribuição da comunidade, sem suporte oficial do Biblivre.</p>
+        <p class="rodape-credito">Feito para a comunidade por Cleydyr de Albuquerque, <a href="https://biblivre.cloud" rel="noopener">Biblivre Cloud</a>.</p>
+      </div>
+      <nav aria-label="Links do projeto">
+        <a href="https://github.com/cleydyr/biblivre-upa" rel="noopener">Código no GitHub</a>
+        <a href="https://github.com/cleydyr/biblivre-upa/releases" rel="noopener">Todas as versões</a>
+        <a href="https://github.com/cleydyr/biblivre-upa/issues" rel="noopener">Relatar um problema</a>
+        <a href="https://biblivre.org.br" rel="noopener">Site do Biblivre</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

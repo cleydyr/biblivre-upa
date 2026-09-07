@@ -5,6 +5,22 @@ Programa Windows (7+) que verifica e, com consentimento, tenta corrigir a instal
 Requisitos de domínio: ver [`CONTEXT.md`](CONTEXT.md).  
 Decisão de stack: [`docs/adr/0001-dotnet-framework-winforms.md`](docs/adr/0001-dotnet-framework-winforms.md).
 
+## Site para usuários finais (GitHub Pages)
+
+A pasta [`site/`](site/) contém uma landing page estática (HTML, CSS e JS puros, sem build) que apresenta o Assistente ao Operador e aponta o botão de download para o instalador da release mais recente (via API do GitHub, com fallback para a página de Releases).
+
+O workflow [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) publica a pasta no GitHub Pages a cada push em `main` que altere `site/**` (ou manualmente em **Actions → Deploy GitHub Pages → Run workflow**).
+
+Para ativar, uma única vez: **Settings → Pages → Build and deployment → Source: GitHub Actions**. Ou pela CLI:
+
+```bash
+gh api -X POST repos/cleydyr/biblivre-upa/pages -f build_type=workflow
+```
+
+Depois do primeiro deploy o site fica em `https://cleydyr.github.io/biblivre-upa/`.
+
+Para ver localmente: `python3 -m http.server -d site 8000` e abrir <http://localhost:8000>.
+
 ## Requisitos para build
 
 - Windows 7 SP1 ou posterior
