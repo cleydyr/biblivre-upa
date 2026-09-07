@@ -301,6 +301,13 @@ strong {
   color: var(--papel);
 }
 
+.aviso-comunidade {
+  margin: 1.15rem 0 0;
+  max-width: 48ch;
+  font-size: 0.98rem;
+  color: var(--ink-tinta);
+}
+
 .acao {
   margin-top: 2.25rem;
 }
@@ -865,8 +872,18 @@ strong {
   align-items: center;
 }
 
+.rodape-texto {
+  display: grid;
+  gap: 0.45rem;
+  max-width: 48rem;
+}
+
 .rodape p {
   margin: 0;
+}
+
+.rodape-credito {
+  color: var(--papel);
 }
 
 .rodape nav {
